@@ -1,23 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard, StyleSheet} from 'react-native';
 import Splash from './Splash';
 import LoginForm from './LoginForm'
+import { Button, Spinner } from './common'
 
 
-export default class Login extends Component {
-    render() {
-        return (
-                <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()} >
-                    <View style={{flex:1}}>
-                        <Splash>
-                            <View style={styles.container}>
-                                <LoginForm />
-                            </View>
-                        </Splash>
-                    </View>
-                </TouchableWithoutFeedback>
-        )
+const Login = ({ loggedIn }) => {
+    let content = null;
+    switch(loggedIn) {
+        case true:
+            content = <Button>Log Out</Button>
+            break;
+        case false:
+            content = <LoginForm />
+            break;
+        default:
+            content = <Spinner size="large"/>
     }
+    
+    return (
+            <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()} >
+                <View style={{flex:1}}>
+                    <Splash>
+                        <View style={styles.container}>
+                            {content}
+                        </View>
+                    </Splash>
+                </View>
+            </TouchableWithoutFeedback>
+    )
+    
 }
 
 const styles = StyleSheet.create({
@@ -28,3 +40,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }
 })
+
+export default Login;

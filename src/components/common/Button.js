@@ -3,20 +3,26 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 
 const Button = ({ children, onPress, disabled }) => {
-    const { container, text } = styles;
+    const { container, main, text } = styles;
     return (
-        <TouchableOpacity
-            onPress={onPress}
-            disabled={disabled}
-            style={disabled? [container, {opacity: 0.3}] : container}
-            >
-                <Text style={text}>{children}</Text>
-        </TouchableOpacity>
+        <View style={container}>
+            <TouchableOpacity
+                onPress={onPress}
+                disabled={disabled}
+                style={disabled? [main, {opacity: 0.3}] : main}
+                >
+                    <Text style={text}>{children}</Text>
+            </TouchableOpacity>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        paddingHorizontal: 70
+    },
+    main: {
         alignItems: 'center',
         backgroundColor: 'rgba(255,255,255,0.8)',
         borderRadius: 5,
@@ -30,8 +36,8 @@ const styles = StyleSheet.create({
         color: '#C51162',
         fontSize: 16,
         fontWeight: '600',
-        paddingTop: 5,
-        paddingBottom: 5
+        paddingVertical: 5,
+        paddingHorizontal: 5
     },
 })
 

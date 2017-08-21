@@ -46,13 +46,13 @@ export default class LoginForm extends Component {
     }
 
     render() {
-        const { container, input, btnSmall } = styles;
-        console.log()
+        const { container, input } = styles;
+
         return (
             <View
                 style={container}
             >
-            
+
                 <TextInput
                     style={input}
                     placeholder="Username or Email"
@@ -81,11 +81,10 @@ export default class LoginForm extends Component {
 
                 {this.renderSpinnerOrErrMsg()}
 
-                <View style={btnSmall}>
-                    <Button onPress={this.loginHandler.bind(this)} disabled={this.state.loading}>
-                        Log In
-                    </Button>
-                </View>
+                <Button onPress={this.loginHandler.bind(this)} disabled={this.state.loading}>
+                    Log In
+                </Button>
+                
             </View>
         )
     }
@@ -112,9 +111,6 @@ const styles = StyleSheet.create({
     },
     errMsg: {
         color: '#C51162',
-    },
-    btnSmall: {
-        paddingHorizontal: 70
-    }
+    },    
 })
 
