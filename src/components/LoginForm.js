@@ -1,33 +1,53 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, Keyboard, StyleSheet } from 'react-native';
 import firebase from 'firebase';
-import { Button, Card, CardSection } from './common';
+import { Button, Card, CardSection, Spinner } from './common';
 
 
 export default class LoginForm extends Component {
-    state = {user: '', password: '', error: ''};
+    state = {user: '', password: '', error: '', loading: false};
 
     loginHandler() {
         //dismiss keyboard after button press
         Keyboard.dismiss();
         //get user's name and password
         const { user, password } = this.state;
-        //clear error message (if any) every time user logs in
-        this.setState({error: ''})
+        //clear error message (if any), show spinner every time user logs in
+        this.setState({error: '', loading: true})
         //handle login via firebase
         firebase.auth().signInWithEmailAndPassword(user, password)
+            .then(this.loginSuccess.bind(this))
             .catch(() => {
                 firebase.auth().createUserWithEmailAndPassword(user, password)
-                    .catch((err) => {
-                        console.log(err.code, err.message);
-                        this.setState({error: err.message})
-                    })
+                    .then(this.loginSuccess.bind(this))
+                    .catch((err) => this.loginFail(err))
             })
     }
 
-    render() {
-        const { container, input, btnSmall, errMsg } = styles;
+    loginSuccess() {
+        this.setState({email:'', password:'', loading: false, error: ''})
+    }
 
+    loginFail(err) {
+        this.setState({error: err.message, loading: false})
+    }
+
+    renderSpinnerOrErrMsg() {
+        const { errContainer, errMsg } = styles;
+        return this.state.loading
+            ? <Spinner size="small" />
+            : (
+                <View style={errContainer}>
+                    <Text style={errMsg}>
+                        {this.state.error}
+                    </Text>
+                </View>
+            );
+    }
+
+    render() {
+        const { container, input, btnSmall } = styles;
+        console.log()
         return (
             <View
                 style={container}
@@ -59,12 +79,10 @@ export default class LoginForm extends Component {
                     onChangeText={text => this.setState({password : text})}
                 />
 
-                <Text style={errMsg}>
-                    {this.state.error}
-                </Text>
+                {this.renderSpinnerOrErrMsg()}
 
                 <View style={btnSmall}>
-                    <Button onPress={this.loginHandler.bind(this)}>
+                    <Button onPress={this.loginHandler.bind(this)} disabled={this.state.loading}>
                         Log In
                     </Button>
                 </View>
@@ -84,13 +102,16 @@ const styles = StyleSheet.create({
         color: '#C51162',
         backgroundColor: '#F48FB1',
         paddingHorizontal: 10,
-        marginBottom: 10,
+        marginBottom: 5,
         borderRadius: 5,
+    },
+    errContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 5,
     },
     errMsg: {
         color: '#C51162',
-        marginBottom: 5,
-        alignSelf: 'center',
     },
     btnSmall: {
         paddingHorizontal: 70
