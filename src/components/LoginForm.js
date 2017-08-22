@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, Keyboard, StyleSheet } from 'react-native';
 import firebase from 'firebase';
-import { Button, Card, CardSection, Spinner } from './common';
+import { Button, Spinner } from './common';
 
 
 export default class LoginForm extends Component {
@@ -84,7 +84,7 @@ export default class LoginForm extends Component {
                 <Button onPress={this.loginHandler.bind(this)} disabled={this.state.loading}>
                     Log In
                 </Button>
-                
+
             </View>
         )
     }
@@ -111,6 +111,6 @@ const styles = StyleSheet.create({
     },
     errMsg: {
         color: '#C51162',
-    },    
+    },
 })
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard, StyleSheet} from 'react-native';
 import firebase from 'firebase';
-import Splash from './Splash';
-import LoginForm from './LoginForm'
-import { Button, Spinner } from './common'
+import LoginForm from './LoginForm';
+import { Button, Splash, Spinner } from './common';
 
 
 const Login = ({ loggedIn }) => {
