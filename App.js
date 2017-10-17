@@ -1,6 +1,4 @@
 import React from 'react';
-// import { StyleSheet, Text, View } from 'react-native';
-// import SplashPage from './src/components/SplashPage';
 import firebase from 'firebase';
 import Login from './src/components/Login';
 

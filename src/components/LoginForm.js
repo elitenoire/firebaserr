@@ -7,7 +7,7 @@ import { Button, Spinner } from './common';
 export default class LoginForm extends Component {
     state = {user: '', password: '', error: '', loading: false};
 
-    loginHandler() {
+    loginHandler = ()=> {
         //dismiss keyboard after button press
         Keyboard.dismiss();
         //get user's name and password
@@ -23,7 +23,7 @@ export default class LoginForm extends Component {
                     .catch((err) => this.loginFail(err))
             })
     }
-
+    //handle login success - navigate to home screen
     loginSuccess() {
         this.setState({email:'', password:'', loading: false, error: ''})
     }
@@ -81,7 +81,7 @@ export default class LoginForm extends Component {
 
                 {this.renderSpinnerOrErrMsg()}
 
-                <Button onPress={this.loginHandler.bind(this)} disabled={this.state.loading}>
+                <Button onPress={this.loginHandler} disabled={this.state.loading}>
                     Log In
                 </Button>
 
